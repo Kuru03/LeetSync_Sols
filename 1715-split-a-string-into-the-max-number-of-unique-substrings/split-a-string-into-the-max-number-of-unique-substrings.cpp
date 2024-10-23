@@ -1,27 +1,44 @@
 class Solution {
 public:
-    int maxUniqueSplit(string s) {
-        unordered_set<string> seen;
-        int maxCount = 0;
-        backtrack(s, 0, seen, 0, maxCount);
-        return maxCount;
-    }
-    void backtrack(const string& s, int start, unordered_set<string>& seen,
-                   int count, int& maxCount) {
-        if (count + (s.size() - start) <= maxCount) return;
-
-        if (start == s.size()) {
-            maxCount = max(maxCount, count);
-            return;
+    map<string, int> map;
+    int helper(string s, int ind, string t) {
+        if (ind >= s.size())
+            return (map[t]==0);
+        int take = helper(s, ind + 1, t + s[ind]);
+        int newTake = 0;
+        if (t != "" && map[t] == 0) {
+            map[t] = 1;
+            string a = "";
+            a += s[ind];
+            newTake = 1 + helper(s, ind + 1, a);
+            map[t] = 0;
         }
-
-        for (int end = start + 1; end <= s.size(); ++end) {
-            string substring = s.substr(start, end - start);
-            if (seen.find(substring) == seen.end()) {
-                seen.insert(substring);
-                backtrack(s, end, seen, count + 1, maxCount);
-                seen.erase(substring);
-            }
-        }
+        return max(take, newTake);
     }
+    int maxUniqueSplit(string s) { return helper(s, 0, ""); }
 };
+// class Solution {
+// public:
+//     unordered_set<string> seen;
+
+//     int helper(string s, int ind) {
+//         if (ind >= s.size()) return 0;
+
+//         int maxSplits = 0;
+//         string current = "";
+//         for (int i = ind; i < s.size(); i++) {
+//             current += s[i];
+//             if (seen.find(current) == seen.end()) {
+//                 seen.insert(current);
+//                 maxSplits = max(maxSplits, 1 + helper(s, i + 1));
+//                 seen.erase(current);
+//             }
+//         }
+
+//         return maxSplits;
+//     }
+
+//     int maxUniqueSplit(string s) {
+//         return helper(s, 0);
+//     }
+// };
