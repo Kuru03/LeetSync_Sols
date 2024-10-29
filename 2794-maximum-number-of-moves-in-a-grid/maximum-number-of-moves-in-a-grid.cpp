@@ -30,6 +30,7 @@ public:
 
     int maxMoves(vector<vector<int>>& grid) {
         memset(dp, -1, sizeof(dp));
+        ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
         n = grid.size();
         m = grid[0].size();
         int ans = 0;
