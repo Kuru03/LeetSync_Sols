@@ -1,31 +1,28 @@
 class Solution {
 public:
-    int maxfreq(unordered_map<char,int>charFrequencyStore){
-        int  t=0;
-        for(auto it:charFrequencyStore){
-            t=max(t,it.second);
-        }
-        return t;
-    }
-    int characterReplacement(string s, int k) {
-        int start=0,end=0;
-        int n=s.size();
-        unordered_map<char,int> charFrequencyStore;
-        int  ans=0;
-        while(end<n){
-            charFrequencyStore[s[end]]++;
-            int maxFrequency=maxfreq(charFrequencyStore);
-            int mistakes=(end-start+1)-maxFrequency;
-            while(k<mistakes){
-                charFrequencyStore[s[start]]--;
-                start++; 
-                maxFrequency=maxfreq(charFrequencyStore);
-                mistakes=(end-start+1)-maxFrequency;
+    
+    int F(string s, int k) {
+        int count=0;
+        vector<int>map(26,0);
+        int l=0,r=0;
+        while(r<s.size()){
+            map[s[r]-'A']++;
+            int t=*max_element(map.begin(),map.end());
+            while((r+1-l-t)>k){
+                map[s[l]-'A']--;
+                t=*max_element(map.begin(),map.end());
+                l++;
             }
-            ans=max(ans,end-start+1);
-            end++;
+            if(r-l-t<=k) count=max(count,r-l+1);
+            r++;
         }
+        return count;
+    }
+    
+
+
+    int characterReplacement(string s, int k) {
+        int ans=F(s,k);
         return ans;
-        
     }
 };
