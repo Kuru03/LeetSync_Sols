@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int maxfreq(map<char,int>charFrequencyStore){
+    int maxfreq(unordered_map<char,int>charFrequencyStore){
         int  t=0;
         for(auto it:charFrequencyStore){
             t=max(t,it.second);
@@ -10,7 +10,7 @@ public:
     int characterReplacement(string s, int k) {
         int start=0,end=0;
         int n=s.size();
-        map<char,int> charFrequencyStore;
+        unordered_map<char,int> charFrequencyStore;
         int  ans=0;
         while(end<n){
             charFrequencyStore[s[end]]++;
