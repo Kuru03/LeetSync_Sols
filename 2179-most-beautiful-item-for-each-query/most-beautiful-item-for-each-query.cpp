@@ -1,14 +1,14 @@
 class Solution
 {
     public:
-        static bool cmp(vector<int> &a, vector<int> &b)
-        {
-            if (a[0] == b[0])
-            {
-                return b[1] > a[1];
-            }
-            return b[0] > a[0];
-        }
+        // static bool cmp(vector<int> &a, vector<int> &b)
+        // {
+        //     if (a[0] == b[0])
+        //     {
+        //         return b[1] > a[1];
+        //     }
+        //     return b[0] > a[0];
+        // }
     int findMaximumBeauty(vector<vector < int>> &arr, int query)
     {
         int lo = 0, hi = arr.size() - 1, ans = 0;
@@ -30,7 +30,7 @@ class Solution
 
     vector<int> maximumBeauty(vector<vector < int>> &items, vector< int > &queries)
     {
-        sort(items.begin(), items.end(), cmp);
+        sort(items.begin(), items.end());
         for (int i = 1; i < items.size(); i++) items[i][1] = max(items[i][1], items[i - 1][1]);
         int n = queries.size();
         vector<int> maximumBeautyStore;
