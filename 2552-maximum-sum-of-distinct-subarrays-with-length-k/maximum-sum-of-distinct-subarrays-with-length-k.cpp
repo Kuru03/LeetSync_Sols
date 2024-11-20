@@ -1,25 +1,26 @@
+#define ll long long
 class Solution {
 public:
-    long long maximumSubarraySum(vector<int>& nums, int k) {
-        long long ans = 0;
-        long long currentSum = 0;
-        int begin = 0;
-        int end = 0;
-        unordered_map<int, int> numToIndex;
-        while (end < nums.size()) {
-            int currNum = nums[end];
-            int lastOccurrence =
-                (numToIndex.count(currNum) ? numToIndex[currNum] : -1);
-            while (begin <= lastOccurrence || end - begin + 1 > k) {
-                currentSum -= nums[begin];
-                begin++;
+    long long maximumSubarraySum(vector<int>& arr, int k) {
+        ll ans=0,n=arr.size();
+        vector<ll> vec(n,0);
+        vec[0]=arr[0];
+        unordered_map<int,int> map;
+        for(int i=1;i<n;i++){
+            vec[i]+=vec[i-1]+arr[i];
+        }
+        int l=0,r=0;
+        while(r<n){
+            if(map.count(arr[r])!=0 && l<=map[arr[r]]){
+                l=map[arr[r]]+1;
             }
-            numToIndex[currNum] = end;
-            currentSum += nums[end];
-            if (end - begin + 1 == k) {
-                ans = max(ans, currentSum);
+            map[arr[r]]=r;
+            if((r-l+1)>=k){
+                l=r-k+1;
+                ans=max(ans,(ll)(vec[r]-vec[l]+arr[l]));
             }
-            end++;
+            
+            r++;   
         }
         return ans;
     }
