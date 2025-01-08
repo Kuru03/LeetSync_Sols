@@ -47,18 +47,20 @@ public:
 
     int repeatedStringMatch(string a, string b) {
         int n = a.size(), m = b.size();
+        if (a == b) return 1;
+        int cnt = 1;
         string t = a;
-        while (a.size() < m)
+        while (a.size() < m) {
             a += t;
-        int ans = 0;
-        bool temp = stringMatcher(b, a);
-        if (temp) return a.size() / t.size();
-        int p = 2 * (a.size() / t.size());
-        for (int i = 0; i <= p; i++) {
-            a += t;
-            temp = stringMatcher(b, a);
-            if (temp) return a.size() / t.size();
+            cnt++;
         }
+        if (a == b)
+            return cnt;
+        bool temp = stringMatcher(b, a);
+        if (temp) return cnt;
+
+        temp = stringMatcher(b, a + t);
+        if (temp) return cnt + 1;
         return -1;
     }
 };
