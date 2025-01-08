@@ -21,7 +21,7 @@ public:
         return vec;
     }
 
-    vector<int> stringMatcher(string pat, string s) {
+    bool stringMatcher(string pat, string s) {
         vector<int> vec = lps(pat);
         vector<int> ans;
         int i = 0, j = 0, n = s.size(), m = pat.size();
@@ -30,6 +30,7 @@ public:
                 i++;
                 j++;
                 if (j == m) {
+                    return 1;
                     ans.push_back(i - j);
                     j = vec[j - 1];
                 }
@@ -40,7 +41,8 @@ public:
                     i++;
             }
         }
-        return ans;
+        return 0;
+        // return ans;
     }
 
     int repeatedStringMatch(string a, string b) {
@@ -49,15 +51,13 @@ public:
         while (a.size() < m)
             a += t;
         int ans = 0;
-        vector<int> temp = stringMatcher(b, a);
-        if (temp.size() > 0)
-            return a.size() / t.size();
+        bool temp = stringMatcher(b, a);
+        if (temp) return a.size() / t.size();
         int p = 2 * (a.size() / t.size());
         for (int i = 0; i <= p; i++) {
             a += t;
             temp = stringMatcher(b, a);
-            if (temp.size() > 0)
-                return a.size() / t.size();
+            if (temp) return a.size() / t.size();
         }
         return -1;
     }
