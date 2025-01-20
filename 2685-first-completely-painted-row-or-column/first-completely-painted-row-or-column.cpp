@@ -3,7 +3,7 @@ public:
     int firstCompleteIndex(vector<int>& arr, vector<vector<int>>& mat) {
         int n=mat.size();
         int m=mat[0].size();
-        map<int,pair<int,int>> map;
+        unordered_map<int,pair<int,int>> map;
         for(int i=0;i<n;i++){
             for(int j=0;j<m;j++){
                 map[mat[i][j]]={i,j};
